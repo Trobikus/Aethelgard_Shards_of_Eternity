@@ -22,13 +22,15 @@ Das Projektziel ist es, eine hochgradig polierte Gameplay-Schleife zu erschaffen
 👥 Solo- & Koop-Fokus: Erlebe die gesamte Geschichte und das Endgame alleine oder lade bis zu drei Freunde in deine Session ein, um die Echos gemeinsam zu bezwingen. Das Spiel ist von Grund auf für beide Spielstile ausbalanciert.
 
 🚀 Engine & Technologie
-Dieses Projekt wird mit der Godot Engine (Version 4.x) entwickelt. Die primäre Skriptsprache ist GDScript, um die Stärken der Engine optimal zu nutzen.
+Dieses Projekt wird mit der **Godot Engine 4.7.x** (empfohlen: **4.7.1**) entwickelt. Die primäre Skriptsprache ist GDScript.
 
 Renderer: Vulkan (Forward+)
 
 Physik: Godot Physics
 
 Versionierung: Git & GitHub
+
+Export-CI: Linux · Windows · Web über `barichello/godot-ci:4.7.1`
 
 🎯 Aktueller Stand & Roadmap
 Das Projekt befindet sich aktuell in der Pre-Alpha / Prototyping-Phase.
