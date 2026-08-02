@@ -1,71 +1,95 @@
-# Name des GitHub Actions Workflows. Wird in der "Actions"-Ansicht auf GitHub angezeigt.
+# Godot CI - Export Project
+# Uses the barichello/godot-ci Docker image (not a composite action).
 name: Godot CI - Export Project
 
-# Trigger: Wann soll dieser Workflow ausgeführt werden?
 on:
-  # Bei jedem Push auf den 'main'-Branch
   push:
     branches: [ "main" ]
-  # Bei jedem Pull Request, der auf den 'main'-Branch abzielt
   pull_request:
     branches: [ "main" ]
 
-# Jobs: Eine Liste von Aufgaben, die ausgeführt werden sollen.
-jobs:
-  # Der einzige Job in diesem Workflow heißt "export".
-  export:
-    # Name des Jobs, der auf GitHub angezeigt wird.
-    name: Export Game
-    # Betriebssystem, auf dem der Job laufen soll. 'ubuntu-latest' ist Standard und kosteneffizient.
-    runs-on: ubuntu-latest
+env:
+  GODOT_VERSION: "4.4.1"
+  EXPORT_NAME: aethelgard
 
-    # Schritte: Die einzelnen Aktionen, die im Job ausgeführt werden.
+jobs:
+  export-linux:
+    name: Linux Export
+    runs-on: ubuntu-24.04
+    container:
+      image: barichello/godot-ci:4.4.1
     steps:
-      # Schritt 1: Code aus dem Repository auschecken
-      # Lädt den aktuellen Stand deines Codes herunter, damit der Workflow damit arbeiten kann.
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          # Notwendig, um Git-Metadaten für einige Godot-Export-Features zu haben (optional).
-          fetch-depth: 0
 
-      # Schritt 2: Godot Engine und Export-Templates einrichten
-      # Nutzt eine vorgefertigte Action aus der Community, um Godot herunterzuladen und zu konfigurieren.
-      # Du musst hier die Godot-Version an dein Projekt anpassen!
-      - name: Set up Godot
-        uses: abarichello/godot-ci@v1.2
-        with:
-          # WICHTIG: Ändere dies auf die exakte Godot-Version, die du für dein Projekt verwendest.
-          godot-version: '4.4.1'
-          # Stellt sicher, dass auch die Export-Templates für diese Version heruntergeladen werden.
-          download-templates: true
-
-      # Schritt 3: Export-Verzeichnisse erstellen
-      # Erstellt Ordner, in denen die exportierten Spieldateien abgelegt werden.
-      - name: Create Export Directories
-        run: mkdir -p ./build/linux ./build/windows ./build/web
-
-      # Schritt 4: Projekt exportieren
-      # Führt den eigentlichen Export-Befehl für jede Zielplattform aus.
-      # WICHTIG: Die Namen der Presets ("Linux/X11", "Windows Desktop", "Web") müssen exakt
-      # mit den Namen übereinstimmen, die du in Godot im "Export"-Dialogfenster festgelegt hast!
-      - name: Export Project
+      - name: Setup
         run: |
-          echo "🚀 Starting export for Linux..."
-          godot --headless --export-release "Linux/X11" --output ./build/linux/aethelgard.x86_64
-          
-          echo "🚀 Starting export for Windows..."
-          godot --headless --export-release "Windows Desktop" --output ./build/windows/aethelgard.exe
-          
-          echo "🚀 Starting export for Web..."
-          godot --headless --export-release "Web" --output ./build/web/index.html
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable \
+            ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
-      # Schritt 5: Exportierte Dateien als Artefakte hochladen
-      # Speichert die fertigen Builds, damit du sie nach Abschluss des Workflows
-      # von der GitHub-Actions-Seite herunterladen kannst.
-      - name: Upload Artifacts
+      - name: Linux Build
+        run: |
+          mkdir -v -p build/linux
+          godot --headless --verbose --export-release "Linux/X11" \
+            "build/linux/${EXPORT_NAME}.x86_64"
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: game-builds
-          path: ./build
+          name: linux
+          path: build/linux
 
+  export-windows:
+    name: Windows Export
+    runs-on: ubuntu-24.04
+    container:
+      image: barichello/godot-ci:4.4.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable \
+            ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Windows Build
+        run: |
+          mkdir -v -p build/windows
+          godot --headless --verbose --export-release "Windows Desktop" \
+            "build/windows/${EXPORT_NAME}.exe"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: build/windows
+
+  export-web:
+    name: Web Export
+    runs-on: ubuntu-24.04
+    container:
+      image: barichello/godot-ci:4.4.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable \
+            ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Web Build
+        run: |
+          mkdir -v -p build/web
+          godot --headless --verbose --export-release "Web" \
+            "build/web/index.html"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: build/web
