@@ -11,8 +11,8 @@ func _ready():
 	body_entered.connect(_on_body_entered) # Connects to the signal
 	
 func _physics_process(delta):
-	# Move the projectile in its direction
-	global_translate(-global_transform.basis.z * speed * delta)
+	# Move the projectile along its forward axis (-Z)
+	global_position += -global_transform.basis.z * speed * delta
 
 func _on_body_entered(body):
 	if attack_data == null:

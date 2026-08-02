@@ -12,17 +12,20 @@ Bitte halte dich an unseren [Code of Conduct](CODE_OF_CONDUCT.md) (falls vorhand
 
 ## 🛠 Entwicklungs‑Setup
 
+**Engine-Voraussetzung:** [Godot **4.7.x**](https://godotengine.org/download) (empfohlen: **4.7.1** stable).  
+Ältere 4.4/4.5/4.6-Editoren können das Projekt öffnen, sind aber nicht der unterstützte Stand.
+
 1. **Fork** das Repository auf GitHub.  
 2. **Clone** deinen Fork lokal:  
    ```bash
    git clone https://github.com/<DEIN-USER>/<DEIN-FORK>.git
-
-   - Erstelle einen Branch für deine Änderung:
-
-git checkout -b feature/dein-feature
-
-- Installiere benötigte Abhängigkeiten (siehe docs/ oder interne Setup-Anleitung).
-- Stelle sicher, dass das Spiel lokal startet und deine Änderungen getestet werden können.
+   ```
+3. Erstelle einen Branch für deine Änderung:
+   ```bash
+   git checkout -b feature/dein-feature
+   ```
+4. Öffne den Projektordner in Godot 4.7.x und warte auf den ersten Import.
+5. Stelle sicher, dass `levels/test_level.tscn` lokal startet und deine Änderungen getestet werden können.
 
 📝 Issues erstellenWir verwenden vorgefertigte Templates, um die Kommunikation klar und strukturiert zu halten.
 Du findest sie unter .github/ISSUE_TEMPLATE/.| Typ | Zweck | 

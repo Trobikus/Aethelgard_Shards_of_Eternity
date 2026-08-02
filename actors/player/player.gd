@@ -45,12 +45,12 @@ var projectile_scene = preload("res://projectiles/magic_missile.tscn")
 @onready var melee_hitbox = $MeleeHitbox
 @onready var projectile_spawn = $ProjectileSpawn
 
-func _ready():
-	super() # Calls _ready in Actor
+func _ready() -> void:
+	super._ready()
 	if not Engine.is_editor_hint():
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		health_changed.connect(_on_health_changed)
-	
+
 	# Exclude the player itself from the raycast
 	interaction_raycast.add_exception(self)
 
@@ -293,23 +293,23 @@ func _on_health_changed(current_health: float, p_max_health: float):
 
 var _targeted_enemy_instance_id: int = -1
 
-func _find_closest_enemy_in_front():
-	var enemies = get_tree().get_nodes_in_group("enemy")
-	var closest_enemy = null
-	var min_distance = INF
-	var player_forward = -global_transform.basis.z # Player's forward direction
+func _find_closest_enemy_in_front() -> Node3D:
+	var enemies := get_tree().get_nodes_in_group("enemy")
+	var closest_enemy: Node3D = null
+	var min_distance := INF
+	var player_forward := -global_transform.basis.z
 
 	for enemy in enemies:
-		if enemy == self: # Don't target self
+		if not (enemy is Node3D) or enemy == self:
 			continue
+		var enemy_3d := enemy as Node3D
+		var to_enemy: Vector3 = (enemy_3d.global_position - global_position).normalized()
+		var dot_product: float = player_forward.dot(to_enemy)
 
-		var to_enemy = (enemy.global_transform.origin - global_transform.origin).normalized()
-		var dot_product = player_forward.dot(to_enemy)
-
-		# Check if enemy is in front of the player (adjust angle as needed)
-		if dot_product > 0.5: # Angle threshold (e.g., 0.5 for ~60 degrees field of view)
-			var distance = global_transform.origin.distance_to(enemy.global_transform.origin)
+		# ~60° forward cone
+		if dot_product > 0.5:
+			var distance: float = global_position.distance_to(enemy_3d.global_position)
 			if distance < min_distance:
 				min_distance = distance
-				closest_enemy = enemy
+				closest_enemy = enemy_3d
 	return closest_enemy
