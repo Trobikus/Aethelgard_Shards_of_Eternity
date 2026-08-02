@@ -21,4 +21,7 @@ func _on_enemy_health_changed(id: int, current_health: float, max_health: float)
 
 func _on_enemy_targeted(enemy_id: int):
 	_targeted_enemy_id = enemy_id
-	enemy_health_bar.show()
+	if enemy_id < 0:
+		enemy_health_bar.hide()
+	else:
+		enemy_health_bar.show()

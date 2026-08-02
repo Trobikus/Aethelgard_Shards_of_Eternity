@@ -8,9 +8,16 @@ var enemy_id: int
 func _ready():
 	SignalBus.enemy_health_changed.connect(_on_enemy_health_changed)
 
-func _process(delta):
+func _process(_delta):
 	# Make the health bar face the camera
-	global_transform = global_transform.looking_at(get_viewport().get_camera_3d().global_transform.origin, Vector3.UP)
+	var camera := get_viewport().get_camera_3d()
+	if camera == null:
+		return
+	var look_from := global_position
+	var look_at_pos := camera.global_position
+	if look_from.distance_squared_to(look_at_pos) < 0.0001:
+		return
+	look_at(look_at_pos, Vector3.UP)
 
 func update_health_bar(current_health: float, max_health: float):
 	health_bar.update_health_bar(current_health, max_health)

@@ -142,6 +142,7 @@ func _move_state(_delta):
 		attack_timer = base_attack_data.duration # Initialize attack timer
 		attack_combo_counter = 0 # Reset combo counter
 		can_combo = false # Reset can_combo
+		_can_hit = true
 		return
 	# To Sprint
 	if Input.is_action_pressed("sprint") and current_stamina > 0 and input_dir != Vector2.ZERO:
@@ -240,6 +241,7 @@ func _attack_state(delta):
 
 		attack_timer = base_attack_data.duration # Reset timer for next hit
 		can_combo = false # Consume combo window
+		_can_hit = true # Allow damage on the next combo swing
 		print("Combo hit: ", attack_combo_counter)
 		return # Stay in attack state for next combo hit
 
@@ -271,12 +273,12 @@ func _on_melee_hitbox_body_entered(body):
 		var timer = get_tree().create_timer(0.1) # Small cooldown
 		timer.timeout.connect(func(): _can_hit = true)
 
-# We override the _die() function to add player-specific death behavior
+# Override death: reload the scene instead of queue_free() then reload
+# (calling reload after queue_free is unreliable).
 func _die():
-	super._die() # Call parent function first
 	print("Player has died. Game Over!")
 	if not Engine.is_editor_hint():
-		get_tree().reload_current_scene()
+		get_tree().call_deferred("reload_current_scene")
 
 func _ranged_attack_state(_delta):
 	var projectile = projectile_scene.instantiate()
