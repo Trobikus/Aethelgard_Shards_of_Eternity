@@ -28,7 +28,12 @@
 
 ## Über das Spiel
 
+<<<<<<< HEAD
 **Aethelgard: Echoes of the Shard** ist ein fokussiertes Action-RPG, das die epische Reise eines klassischen RPGs mit der endlosen, beutegetriebenen Wiederspielbarkeit eines Hack-&-Slay verbindet — inspiriert von Größen wie *Diablo* und *Path of Exile*, aber gebaut für Solo und kleinen Koop (bis 4 Spieler).
+=======
+🚀 Engine & Technologie
+Dieses Projekt wird mit der **Godot Engine 4.7.x** (empfohlen: **4.7.1**) entwickelt. Die primäre Skriptsprache ist GDScript.
+>>>>>>> origin/main
 
 Das Erlebnis gliedert sich bewusst in **zwei Phasen**:
 
@@ -39,7 +44,14 @@ Das Erlebnis gliedert sich bewusst in **zwei Phasen**:
 
 > Ziel: eine hochgradig polierte Gameplay-Schleife — viszeraler Kampf, strategische Charaktermeisterschaft, unermüdliche Jagd nach Macht.
 
+<<<<<<< HEAD
 ---
+=======
+Export-CI: Linux · Windows · Web über `barichello/godot-ci:4.7.1`
+
+🎯 Aktueller Stand & Roadmap
+Das Projekt befindet sich aktuell in der Pre-Alpha / Prototyping-Phase.
+>>>>>>> origin/main
 
 ## Kernfeatures
 
