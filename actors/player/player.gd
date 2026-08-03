@@ -326,7 +326,11 @@ func _die() -> void:
 func _ranged_attack_state(_delta):
 	var projectile = projectile_scene.instantiate()
 	projectile.attack_data = _ranged_damage_data()
-	get_tree().get_root().add_child(projectile)
+	# Parent to current_scene so scene changes (Bastion <-> Arena) free in-flight missiles.
+	var parent := get_tree().current_scene
+	if parent == null:
+		parent = get_tree().root
+	parent.add_child(projectile)
 	projectile.global_transform = projectile_spawn.global_transform
 	ranged_attack_timer = ranged_attack_cooldown
 	current_state = State.MOVE
