@@ -5,9 +5,9 @@
 # Aethelgard
 ### *Echoes of the Shard*
 
-**Ein Singleplayer- & Koop-Action-RPG** · Godot 4.4 · Pre-Alpha
+**Ein Singleplayer- & Koop-Action-RPG** · Godot 4.7 · Pre-Alpha
 
-[![Godot](https://img.shields.io/badge/Godot-4.4.1-478CBF?style=for-the-badge&logo=godotengine&logoColor=white)](https://godotengine.org/)
+[![Godot](https://img.shields.io/badge/Godot-4.7.1-478CBF?style=for-the-badge&logo=godotengine&logoColor=white)](https://godotengine.org/)
 [![GDScript](https://img.shields.io/badge/Language-GDScript-3584E4?style=for-the-badge)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/index.html)
 [![Status](https://img.shields.io/badge/Status-Pre--Alpha-C9A227?style=for-the-badge)](#-aktueller-stand)
 [![License](https://img.shields.io/badge/License-Proprietary-1A1F2B?style=for-the-badge)](LICENSE_PROPRIETARY.md)
@@ -28,12 +28,7 @@
 
 ## Über das Spiel
 
-<<<<<<< HEAD
 **Aethelgard: Echoes of the Shard** ist ein fokussiertes Action-RPG, das die epische Reise eines klassischen RPGs mit der endlosen, beutegetriebenen Wiederspielbarkeit eines Hack-&-Slay verbindet — inspiriert von Größen wie *Diablo* und *Path of Exile*, aber gebaut für Solo und kleinen Koop (bis 4 Spieler).
-=======
-🚀 Engine & Technologie
-Dieses Projekt wird mit der **Godot Engine 4.7.x** (empfohlen: **4.7.1**) entwickelt. Die primäre Skriptsprache ist GDScript.
->>>>>>> origin/main
 
 Das Erlebnis gliedert sich bewusst in **zwei Phasen**:
 
@@ -44,14 +39,7 @@ Das Erlebnis gliedert sich bewusst in **zwei Phasen**:
 
 > Ziel: eine hochgradig polierte Gameplay-Schleife — viszeraler Kampf, strategische Charaktermeisterschaft, unermüdliche Jagd nach Macht.
 
-<<<<<<< HEAD
 ---
-=======
-Export-CI: Linux · Windows · Web über `barichello/godot-ci:4.7.1`
-
-🎯 Aktueller Stand & Roadmap
-Das Projekt befindet sich aktuell in der Pre-Alpha / Prototyping-Phase.
->>>>>>> origin/main
 
 ## Kernfeatures
 
@@ -158,11 +146,13 @@ Das Kampfsystem stellt Können vor Automatismen:
 
 | | |
 | :--- | :--- |
-| **Engine** | Godot **4.4** (Vulkan Forward+) |
+| **Engine** | Godot **4.7.1** (Vulkan Forward+) |
 | **Sprache** | GDScript |
 | **Physik** | Godot Physics |
-| **Export** | Linux · Windows · Web (CI) |
+| **Export** | Linux · Windows · Web über `barichello/godot-ci:4.7.1` |
 | **Repo** | GitHub Actions + Pages |
+
+Details: [`docs/ENGINE.md`](docs/ENGINE.md)
 
 ---
 
@@ -254,7 +244,7 @@ Ohne schriftliche Genehmigung: kein Kopieren, Modifizieren oder Verteilen.
 <img src="icon.svg" alt="Project icon" width="72">
 
 **Aethelgard: Echoes of the Shard**  
-*Pre-Alpha · Built with Godot*
+*Pre-Alpha · Built with Godot 4.7*
 
 <sub>© 2025–2026 Trobikus · Alle Rechte vorbehalten</sub>
 
