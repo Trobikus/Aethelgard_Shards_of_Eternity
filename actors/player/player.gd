@@ -275,7 +275,10 @@ func _on_melee_hitbox_body_entered(body):
 
 # Override death: reload the scene instead of queue_free() then reload
 # (calling reload after queue_free is unreliable).
-func _die():
+func _die() -> void:
+	if is_dead:
+		return
+	is_dead = true
 	print("Player has died. Game Over!")
 	if not Engine.is_editor_hint():
 		get_tree().call_deferred("reload_current_scene")

@@ -34,12 +34,15 @@ Export-CI: Linux · Windows · Web über `barichello/godot-ci:4.7.1`
 
 🎯 Aktueller Stand & Roadmap
 Das Projekt befindet sich aktuell in der Pre-Alpha / Prototyping-Phase.
+Hauptszene: `levels/combat_arena.tscn` (Wellen-Arena mit Melee- und Ranged-Gegnern).
 
 Aktueller Fokus:
 
 [x] Implementierung des grundlegenden 3rd-Person-Controllers.
 
-[ ] Entwicklung des Kern-Kampfsystems ("Kinetisches Weben").
+[x] Kernkampf (Nah-/Fernkampf, HP, Gegner-KI).
+
+[x] Spielbare Combat-Arena (3 Wellen, NavMesh, Restart).
 
 [ ] Erster Prototyp der prozeduralen Level-Generierung für die Echos.
 
@@ -47,9 +50,9 @@ Aktueller Fokus:
 
 Nächste Meilensteine:
 
-Eine spielbare Demo mit einem kompletten Gameplay-Loop (Hub -> Echo -> Boss -> Loot -> Hub).
+Mini-Bastion (Hub) und erster Hub → Arena/Echo → Loot → Hub Loop.
 
-Entwurf und erste Implementierung des Talentbaums.
+Eine spielbare Demo mit Boss und Loot.
 
 🤝 Mitwirken
 Obwohl dies primär ein Solo-Projekt ist, ist Feedback und Unterstützung aus der Community immer willkommen. Wenn du Fehler findest oder Ideen für das Spiel hast, eröffne bitte einen Issue hier auf GitHub.

@@ -10,6 +10,8 @@
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_t0j5x")
+hits_enemies = true
+hits_player = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_e5v5e")

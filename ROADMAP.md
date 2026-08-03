@@ -27,7 +27,9 @@ Kampfsystem ("Kinetisches Weben"):
 
 [x] Schadensberechnung und Lebenspunkte-System für Spieler und Gegner.
 
-[ ] Erste Gegner-KI (Verfolgen und Angreifen des Spielers).
+[x] Erste Gegner-KI (Verfolgen und Angreifen des Spielers).
+
+[x] Spielbare Combat-Arena (Wellen, Melee + Ranged, NavMesh).
 
 Welt & Level:
 
