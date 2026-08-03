@@ -12,3 +12,6 @@ signal enemy_died(enemy_id: int)
 signal arena_wave_started(wave_index: int, enemy_count: int)
 signal arena_wave_cleared(wave_index: int)
 signal arena_cleared()
+
+# Interaction UI
+signal interact_prompt_changed(prompt_text: String)

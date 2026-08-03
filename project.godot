@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Aethelgard Shards of Eternity"
-run/main_scene="res://levels/combat_arena.tscn"
+run/main_scene="res://levels/bastion.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 SignalBus="*res://scripts/signal_bus.gd"
+RunState="*res://scripts/run_state.gd"
 
 [input]
 

@@ -118,16 +118,19 @@ func _physics_process(delta):
 		move_and_slide()
 
 # --- Interaction ---
-func _handle_interaction_check():
+func _handle_interaction_check() -> void:
 	interaction_raycast.force_raycast_update()
+	var prompt := ""
 	if interaction_raycast.is_colliding():
 		var collider = interaction_raycast.get_collider()
-		if collider.is_in_group("interactable"):
-			# In the future, we will show a UI prompt here.
-			if Input.is_action_just_pressed("interact"):
-				# This will error until we create an interactable object
-				# with an interact() method.
+		if collider != null and collider.is_in_group("interactable"):
+			if collider.has_method("get_interact_prompt"):
+				prompt = str(collider.get_interact_prompt())
+			else:
+				prompt = "Interact [E]"
+			if Input.is_action_just_pressed("interact") and collider.has_method("interact"):
 				collider.interact(self)
+	SignalBus.interact_prompt_changed.emit(prompt)
 
 # --- State Functions ---
 
@@ -281,7 +284,11 @@ func _die() -> void:
 	is_dead = true
 	print("Player has died. Game Over!")
 	if not Engine.is_editor_hint():
-		get_tree().call_deferred("reload_current_scene")
+		# Arena defeats return to the Bastion hub; other scenes reload.
+		if get_tree().current_scene is CombatArena:
+			RunState.return_to_bastion(RunState.Result.DEFEAT)
+		else:
+			get_tree().call_deferred("reload_current_scene")
 
 func _ranged_attack_state(_delta):
 	var projectile = projectile_scene.instantiate()

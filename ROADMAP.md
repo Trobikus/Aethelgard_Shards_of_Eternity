@@ -35,7 +35,9 @@ Welt & Level:
 
 [ ] Prototyp für die prozedurale Generierung der "Echos" (basierend auf Kacheln/Räumen).
 
-[ ] Einfacher Hub-Bereich ("Die Bastion").
+[x] Einfacher Hub-Bereich ("Die Bastion").
+
+[x] Hub ↔ Arena Loop (Portal, Victory/Defeat Rückkehr).
 
 Systeme:
 

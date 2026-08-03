@@ -20,6 +20,7 @@ var _wave_index: int = -1
 var _alive_enemies: int = 0
 var _spawning: bool = false
 var _arena_finished: bool = false
+var _returning: bool = false
 
 func _ready() -> void:
 	randomize()
@@ -53,9 +54,11 @@ func _start_next_wave() -> void:
 	_wave_index += 1
 	if _wave_index >= wave_compositions.size():
 		_arena_finished = true
-		_update_hud("ARENA CLEARED — R to restart")
+		_update_hud("ARENA CLEARED — E return to Bastion · R retry")
 		wave_label.text = "Waves complete"
 		SignalBus.arena_cleared.emit()
+		await get_tree().create_timer(4.0).timeout
+		_try_return_to_bastion(RunState.Result.VICTORY)
 		return
 
 	_spawning = true
@@ -127,3 +130,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode == KEY_R:
 			get_tree().reload_current_scene()
+		elif _arena_finished and event.physical_keycode == KEY_E:
+			_try_return_to_bastion(RunState.Result.VICTORY)
+
+func _try_return_to_bastion(result: RunState.Result) -> void:
+	if _returning or not is_inside_tree():
+		return
+	_returning = true
+	RunState.return_to_bastion(result)
