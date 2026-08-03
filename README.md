@@ -108,7 +108,7 @@ Das Kampfsystem stellt Können vor Automatismen:
          └─────────────┘
 ```
 
-**Aktuell im Prototyp:** Third-Person-Controller, Dodge & Sprint, Nah- und Fernkampf, Lebenspunkte, erste Gegner-KI, Health-UI.
+**Aktuell spielbar:** Bastion → Arena-Wellen → Shard-Guardian-Boss → Loot/Equipment → zurück zur Bastion.
 
 ---
 
@@ -158,6 +158,8 @@ Details: [`docs/ENGINE.md`](docs/ENGINE.md)
 
 ## Aktueller Stand
 
+Hauptszene: `levels/bastion.tscn` — Hub mit Echo-Portal zur Combat-Arena.
+
 <details open>
 <summary><b>Phase 1 — Prototyping & Core Gameplay</b> (Fokus)</summary>
 <br>
@@ -170,20 +172,21 @@ Details: [`docs/ENGINE.md`](docs/ENGINE.md)
 | Nahkampf-Kombo (3 Hits) | ✅ |
 | Fernkampf Skill-Shot | ✅ |
 | Schaden & HP (Spieler / Gegner) | ✅ |
-| Erste Gegner-KI | 🔧 |
+| Erste Gegner-KI | ✅ |
+| Combat-Arena (Wellen, Melee/Ranged) | ✅ |
+| Die Bastion + Hub ↔ Arena Loop | ✅ |
+| Boss (Shard Guardian, 3 Phasen) | ✅ |
+| Loot-Drops + Inventar/Equipment | ✅ |
 | Prozedurale Echo-Generierung | ⏳ |
-| Hub „Die Bastion“ | ⏳ |
-| Inventar & Ausrüstung | ⏳ |
-| Loot-Drops | ⏳ |
 
 </details>
 
 **Nächste Meilensteine**
-1. Spielbarer Loop: **Hub → Echo → Boss → Loot → Hub**
-2. Erster Talentbaum-Pfad (Schnitter)
-3. Vertical Slice mit Quest & Boss
+1. Talentbaum (Pfad des Schnitters) und frühes Level-Up
+2. Mehr Gegnervarianten und Unique-Affixe
+3. Prozedurale Echo-Generierung
 
-Vollständige Planung: [`ROADMAP.md`](ROADMAP.md) · Konzept: [`Game_Konzept.txt`](Game_Konzept.txt)
+Vollständige Planung: [`ROADMAP.md`](ROADMAP.md) · Konzept: [`Game_Konzept.txt`](Game_Konzept.txt) · Engine: [`docs/ENGINE.md`](docs/ENGINE.md)
 
 ---
 
@@ -191,13 +194,13 @@ Vollständige Planung: [`ROADMAP.md`](ROADMAP.md) · Konzept: [`Game_Konzept.txt
 
 ```text
 Aethelgard/
-├── actors/          # Spieler, Actor-Basis, Gegner-KI
-├── items/           # Interaktives / Test-Content
-├── levels/          # Szenen (z. B. test_level)
-├── projectiles/     # Magic Missile & Co.
-├── resources/       # AttackData, Tres-Ressourcen
-├── scripts/         # SignalBus, Projectile-Logik
-├── ui/              # Game UI, Health Bars (2D / 3D)
+├── actors/          # Spieler, Gegner, Boss
+├── items/           # Portal, Loot-Pickups
+├── levels/          # Bastion, Combat-Arena
+├── projectiles/     # Player- & Enemy-Projektile
+├── resources/       # AttackData, ItemData
+├── scripts/         # RunState, Inventory, Loot, SignalBus
+├── ui/              # Game UI, Health Bars, Inventar
 ├── docs/            # Docs & README-Assets
 └── project.godot
 ```
