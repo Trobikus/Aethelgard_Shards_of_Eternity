@@ -13,9 +13,12 @@ enum AttackStyle { MELEE, RANGED }
 @export var turn_speed: float = 10.0
 @export var projectile_scene: PackedScene
 @export var projectile_speed: float = 16.0
+@export var loot_source: LootTable.Source = LootTable.Source.TRASH
+@export var drop_loot_on_death: bool = true
 
 var _attack_timer: float = 0.0
 var player_node: Node3D
+var _loot_dropped: bool = false
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var health_bar: HealthBar3D = get_node_or_null("HealthBar3D")
@@ -181,4 +184,14 @@ func _on_health_changed(p_current_health: float, p_max_health: float) -> void:
 	SignalBus.enemy_health_changed.emit(get_instance_id(), p_current_health, p_max_health)
 
 func _on_died() -> void:
+	_drop_loot()
 	SignalBus.enemy_died.emit(get_instance_id())
+
+func _drop_loot() -> void:
+	if _loot_dropped or not drop_loot_on_death or Engine.is_editor_hint():
+		return
+	_loot_dropped = true
+	var parent := get_tree().current_scene
+	if parent == null:
+		parent = get_parent()
+	LootSpawner.spawn_drops(parent, global_position, loot_source)

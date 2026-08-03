@@ -41,9 +41,11 @@ Welt & Level:
 
 Systeme:
 
-[ ] Grundlegendes Inventar- und Ausrüstungssystem.
+[x] Grundlegendes Inventar- und Ausrüstungssystem.
 
-[ ] Loot-Drops von Gegnern (zufällige Gegenstände).
+[x] Loot-Drops von Gegnern (zufällige Gegenstände).
+
+[x] Erster Arena-Boss (Shard Guardian, 3 Phasen) mit garantiertem Equipment-Loot.
 
 Phase 2: Vertical Slice & Content Foundation
 Ziel: Eine "vertikale Scheibe" des Spiels erstellen – ein kurzer, aber vollständiger Spielabschnitt, der alle Kernfeatures in einer polierten Form zeigt.
@@ -58,7 +60,7 @@ Inhalte:
 
 [ ] 2-3 verschiedene Gegnertypen mit einzigartigen Angriffsmustern.
 
-[ ] Ein erster Bosskampf mit mehreren Phasen und speziellen Mechaniken.
+[x] Ein erster Bosskampf mit mehreren Phasen und speziellen Mechaniken.
 
 [ ] Eine erste Quest, die den Spieler durch den Gameplay-Loop führt.
 

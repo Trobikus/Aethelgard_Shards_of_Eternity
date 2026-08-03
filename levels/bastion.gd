@@ -9,16 +9,22 @@ func _ready() -> void:
 	prompt_label.visible = false
 	var message := RunState.consume_result_message()
 	if message.is_empty():
-		status_label.text = "Die Bastion — safe haven of the Echo-Smith"
+		status_label.text = "Die Bastion — safe haven of the Echo-Smith · I inventory"
 	else:
 		status_label.text = message
 	_refresh_stats()
 	SignalBus.interact_prompt_changed.connect(_on_interact_prompt_changed)
+	Inventory.equipment_changed.connect(_refresh_stats)
+	Inventory.inventory_changed.connect(_refresh_stats)
 
 func _refresh_stats() -> void:
-	stats_label.text = "Echos cleared: %d   |   Falls: %d" % [
+	stats_label.text = "Echos: %d  |  Bosses: %d  |  Falls: %d  |  Bag: %d  |  %+d dmg / %+d HP" % [
 		RunState.arenas_cleared,
+		RunState.bosses_slain,
 		RunState.total_defeats,
+		Inventory.bag_count(),
+		Inventory.get_bonus_damage(),
+		Inventory.get_bonus_max_health(),
 	]
 
 func _on_interact_prompt_changed(text: String) -> void:
