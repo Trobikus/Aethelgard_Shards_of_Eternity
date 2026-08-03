@@ -46,15 +46,17 @@ Aktueller Fokus:
 
 [x] Die Bastion (Hub) + Portal-Loop Hub → Arena → Hub.
 
-[ ] Erster Prototyp der prozeduralen Level-Generierung für die Echos.
+[x] Boss (Shard Guardian, 3 Phasen) + Loot-Drops + Inventar/Equipment.
 
-[ ] Design und Implementierung des Inventar- und Item-Systems.
+[ ] Erster Prototyp der prozeduralen Level-Generierung für die Echos.
 
 Nächste Meilensteine:
 
-Boss + Loot-Minimum und zurück zur Bastion.
+Talentbaum (Pfad des Schnitters) und frühes Level-Up.
 
-Spielbarer MVP-Loop: Hub → Echo → Boss → Loot → Hub.
+Mehr Gegnervarianten und Unique-Affixe.
+
+Spielbarer MVP-Loop: Hub → Echo → Boss → Loot → Hub (Basis steht).
 
 🤝 Mitwirken
 Obwohl dies primär ein Solo-Projekt ist, ist Feedback und Unterstützung aus der Community immer willkommen. Wenn du Fehler findest oder Ideen für das Spiel hast, eröffne bitte einen Issue hier auf GitHub.
