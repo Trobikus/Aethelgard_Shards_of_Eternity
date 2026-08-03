@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://actors/enemies/enemy_ai.gd" id="1_enemy"]
+[ext_resource type="PackedScene" path="res://ui/health_bar_3d.tscn" id="2_hbar"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_melee"]
+radius = 0.4
+height = 1.6
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_melee"]
+radius = 0.4
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_melee"]
+albedo_color = Color(0.75, 0.22, 0.18, 1)
+
+[node name="MeleeEnemy" type="CharacterBody3D" groups=["enemy"]]
+collision_layer = 2
+collision_mask = 1
+floor_stop_on_slope = true
+script = ExtResource("1_enemy")
+max_health = 60
+attack_style = 0
+chase_range = 22.0
+attack_range = 1.8
+attack_cooldown = 0.9
+attack_damage = 12
+speed = 4.8
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("CapsuleMesh_melee")
+surface_material_override/0 = SubResource("Mat_melee")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape_melee")
+
+[node name="HealthBar3D" parent="." instance=ExtResource("2_hbar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = false
+radius = 0.45
+max_speed = 4.8

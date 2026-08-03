@@ -1,0 +1,198 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://levels/bastion.gd" id="1_bastion"]
+[ext_resource type="PackedScene" path="res://actors/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://items/echo_portal.tscn" id="3_portal"]
+[ext_resource type="PackedScene" path="res://ui/game_ui.tscn" id="4_ui"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.22, 0.2, 0.18, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(28, 1, 28)
+material = SubResource("Mat_floor")
+
+[sub_resource type="BoxShape3D" id="BoxShape_floor"]
+size = Vector3(28, 1, 28)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
+albedo_color = Color(0.16, 0.15, 0.14, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+size = Vector3(28, 4, 1)
+material = SubResource("Mat_wall")
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall"]
+size = Vector3(28, 4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_side"]
+size = Vector3(1, 4, 26)
+material = SubResource("Mat_wall")
+
+[sub_resource type="BoxShape3D" id="BoxShape_side"]
+size = Vector3(1, 4, 26)
+
+[sub_resource type="StandardMaterial3D" id="Mat_plinth"]
+albedo_color = Color(0.35, 0.32, 0.28, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_plinth"]
+size = Vector3(3, 0.4, 3)
+material = SubResource("Mat_plinth")
+
+[sub_resource type="BoxShape3D" id="BoxShape_plinth"]
+size = Vector3(3, 0.4, 3)
+
+[node name="Bastion" type="Node3D"]
+script = ExtResource("1_bastion")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape_floor")
+
+[node name="Walls" type="Node3D" parent="."]
+
+[node name="WallNorth" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -14.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WallNorth"]
+mesh = SubResource("BoxMesh_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallNorth"]
+shape = SubResource("BoxShape_wall")
+
+[node name="WallSouth" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 14.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WallSouth"]
+mesh = SubResource("BoxMesh_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallSouth"]
+shape = SubResource("BoxShape_wall")
+
+[node name="WallEast" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WallEast"]
+mesh = SubResource("BoxMesh_side")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallEast"]
+shape = SubResource("BoxShape_side")
+
+[node name="WallWest" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.5, 2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/WallWest"]
+mesh = SubResource("BoxMesh_side")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallWest"]
+shape = SubResource("BoxShape_side")
+
+[node name="PortalPlinth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -8)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PortalPlinth"]
+mesh = SubResource("BoxMesh_plinth")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PortalPlinth"]
+shape = SubResource("BoxShape_plinth")
+
+[node name="EchoPortal" parent="." instance=ExtResource("3_portal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -8)
+
+[node name="ChestPlaceholder" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.5, 4)
+size = Vector3(1.4, 1, 0.9)
+
+[node name="VendorPlaceholder" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 4)
+radius = 0.6
+height = 2.0
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8, -0.4, 0.45, 0, 0.75, 0.66, -0.6, -0.53, 0.6, 4, 16, 6)
+shadow_enabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GameUI" parent="CanvasLayer" instance=ExtResource("4_ui")]
+
+[node name="BastionHUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/BastionHUD"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 14.0
+offset_right = 180.0
+offset_bottom = 46.0
+theme_override_font_sizes/font_size = 26
+text = "DIE BASTION"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="CanvasLayer/BastionHUD"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.0
+offset_top = 48.0
+offset_right = 320.0
+offset_bottom = 78.0
+theme_override_font_sizes/font_size = 16
+text = "Die Bastion — safe haven of the Echo-Smith"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="CanvasLayer/BastionHUD"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 78.0
+offset_right = 200.0
+offset_bottom = 104.0
+theme_override_colors/font_color = Color(0.75, 0.8, 0.88, 1)
+theme_override_font_sizes/font_size = 14
+text = "Echos cleared: 0   |   Falls: 0"
+horizontal_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="CanvasLayer/BastionHUD"]
+visible = false
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.7
+anchor_right = 0.5
+anchor_bottom = 0.7
+offset_left = -160.0
+offset_top = -16.0
+offset_right = 160.0
+offset_bottom = 16.0
+theme_override_font_sizes/font_size = 20
+text = "Enter Echo [E]"
+horizontal_alignment = 1
+
+[node name="HintLabel" type="Label" parent="CanvasLayer/BastionHUD"]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -40.0
+offset_right = 640.0
+offset_bottom = -12.0
+theme_override_colors/font_color = Color(0.75, 0.78, 0.85, 1)
+theme_override_font_sizes/font_size = 14
+text = "Walk to the Echo Portal and press E  ·  I inventory  ·  RMB look  ·  WASD move"

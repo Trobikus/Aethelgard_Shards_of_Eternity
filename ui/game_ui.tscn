@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="PackedScene" path="res://ui/health_bar.tscn" id="1_abcde"]
 [ext_resource type="Script" path="res://ui/game_ui.gd" id="2_fghij"]
+[ext_resource type="PackedScene" path="res://ui/inventory_ui.tscn" id="3_inv"]
 
 [node name="GameUI" type="Control"]
 script = ExtResource("2_fghij")
@@ -25,3 +26,14 @@ anchor_left = 0.3
 anchor_top = 0.05
 anchor_right = 0.7
 anchor_bottom = 0.1
+
+[node name="LootToast" type="Label" parent="."]
+layout_mode = 0
+anchor_left = 0.3
+anchor_top = 0.14
+anchor_right = 0.7
+anchor_bottom = 0.18
+horizontal_alignment = 1
+text = ""
+
+[node name="InventoryUI" parent="." instance=ExtResource("3_inv")]

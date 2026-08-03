@@ -27,19 +27,25 @@ Kampfsystem ("Kinetisches Weben"):
 
 [x] Schadensberechnung und Lebenspunkte-System für Spieler und Gegner.
 
-[ ] Erste Gegner-KI (Verfolgen und Angreifen des Spielers).
+[x] Erste Gegner-KI (Verfolgen und Angreifen des Spielers).
+
+[x] Spielbare Combat-Arena (Wellen, Melee + Ranged, NavMesh).
 
 Welt & Level:
 
 [ ] Prototyp für die prozedurale Generierung der "Echos" (basierend auf Kacheln/Räumen).
 
-[ ] Einfacher Hub-Bereich ("Die Bastion").
+[x] Einfacher Hub-Bereich ("Die Bastion").
+
+[x] Hub ↔ Arena Loop (Portal, Victory/Defeat Rückkehr).
 
 Systeme:
 
-[ ] Grundlegendes Inventar- und Ausrüstungssystem.
+[x] Grundlegendes Inventar- und Ausrüstungssystem.
 
-[ ] Loot-Drops von Gegnern (zufällige Gegenstände).
+[x] Loot-Drops von Gegnern (zufällige Gegenstände).
+
+[x] Erster Arena-Boss (Shard Guardian, 3 Phasen) mit garantiertem Equipment-Loot.
 
 Phase 2: Vertical Slice & Content Foundation
 Ziel: Eine "vertikale Scheibe" des Spiels erstellen – ein kurzer, aber vollständiger Spielabschnitt, der alle Kernfeatures in einer polierten Form zeigt.
@@ -54,7 +60,7 @@ Inhalte:
 
 [ ] 2-3 verschiedene Gegnertypen mit einzigartigen Angriffsmustern.
 
-[ ] Ein erster Bosskampf mit mehreren Phasen und speziellen Mechaniken.
+[x] Ein erster Bosskampf mit mehreren Phasen und speziellen Mechaniken.
 
 [ ] Eine erste Quest, die den Spieler durch den Gameplay-Loop führt.
 

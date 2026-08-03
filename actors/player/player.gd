@@ -45,17 +45,47 @@ var projectile_scene = preload("res://projectiles/magic_missile.tscn")
 @onready var melee_hitbox = $MeleeHitbox
 @onready var projectile_spawn = $ProjectileSpawn
 
+var _base_max_health: int = 100
+var _base_move_speed: float = 5.0
+
 func _ready() -> void:
 	super._ready()
 	if not Engine.is_editor_hint():
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		health_changed.connect(_on_health_changed)
+		_base_max_health = max_health
+		_base_move_speed = speed
+		Inventory.equipment_changed.connect(_apply_equipment_bonuses)
+		_apply_equipment_bonuses()
 
 	# Exclude the player itself from the raycast
 	interaction_raycast.add_exception(self)
 
 	# Connect hitbox signal
 	melee_hitbox.body_entered.connect(_on_melee_hitbox_body_entered)
+
+func _apply_equipment_bonuses() -> void:
+	var previous_max := max_health
+	max_health = _base_max_health + Inventory.get_bonus_max_health()
+	speed = _base_move_speed + Inventory.get_bonus_move_speed()
+	if current_health <= 0:
+		current_health = max_health
+	elif max_health > previous_max:
+		current_health += max_health - previous_max
+	else:
+		current_health = mini(current_health, max_health)
+	health_changed.emit(current_health, max_health)
+
+func _melee_damage() -> int:
+	var base := int(base_attack_data.damage) if base_attack_data else 10
+	return base + Inventory.get_bonus_damage()
+
+func _ranged_damage_data() -> AttackData:
+	if ranged_attack_data == null:
+		return null
+	var data := ranged_attack_data.duplicate(true) as AttackData
+	data.damage = ranged_attack_data.damage + Inventory.get_bonus_damage()
+	return data
 
 func _input(event):
 	if not Engine.is_editor_hint():
@@ -118,16 +148,19 @@ func _physics_process(delta):
 		move_and_slide()
 
 # --- Interaction ---
-func _handle_interaction_check():
+func _handle_interaction_check() -> void:
 	interaction_raycast.force_raycast_update()
+	var prompt := ""
 	if interaction_raycast.is_colliding():
 		var collider = interaction_raycast.get_collider()
-		if collider.is_in_group("interactable"):
-			# In the future, we will show a UI prompt here.
-			if Input.is_action_just_pressed("interact"):
-				# This will error until we create an interactable object
-				# with an interact() method.
+		if collider != null and collider.is_in_group("interactable"):
+			if collider.has_method("get_interact_prompt"):
+				prompt = str(collider.get_interact_prompt())
+			else:
+				prompt = "Interact [E]"
+			if Input.is_action_just_pressed("interact") and collider.has_method("interact"):
 				collider.interact(self)
+	SignalBus.interact_prompt_changed.emit(prompt)
 
 # --- State Functions ---
 
@@ -135,9 +168,12 @@ func _move_state(_delta):
 	# --- Get input --- 
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 
+	# Block combat inputs while inventory is open
+	var inventory_open := _is_inventory_open()
+
 	# --- Check for state transitions ---
 	# To Attack
-	if Input.is_action_just_pressed("attack"):
+	if not inventory_open and Input.is_action_just_pressed("attack"):
 		current_state = State.ATTACK
 		attack_timer = base_attack_data.duration # Initialize attack timer
 		attack_combo_counter = 0 # Reset combo counter
@@ -145,12 +181,12 @@ func _move_state(_delta):
 		_can_hit = true
 		return
 	# To Sprint
-	if Input.is_action_pressed("sprint") and current_stamina > 0 and input_dir != Vector2.ZERO:
+	if not inventory_open and Input.is_action_pressed("sprint") and current_stamina > 0 and input_dir != Vector2.ZERO:
 		can_regenerate_stamina = false
 		current_state = State.SPRINT
 		return
 	# To Dodge
-	if Input.is_action_just_pressed("dodge") and current_stamina >= dodge_stamina_cost and is_on_floor():
+	if not inventory_open and Input.is_action_just_pressed("dodge") and current_stamina >= dodge_stamina_cost and is_on_floor():
 		can_regenerate_stamina = true # Ensure stamina regens after dodge
 		current_state = State.DODGE
 		current_stamina -= dodge_stamina_cost
@@ -163,7 +199,7 @@ func _move_state(_delta):
 			dodge_direction = -transform.basis.z
 		return
 	# To Ranged Attack
-	if Input.is_action_just_pressed("ranged_attack") and ranged_attack_timer <= 0:
+	if not inventory_open and Input.is_action_just_pressed("ranged_attack") and ranged_attack_timer <= 0:
 		current_state = State.RANGED_ATTACK
 		return
 
@@ -258,7 +294,7 @@ func _on_melee_hitbox_body_entered(body):
 		return
 
 	if body is Actor and body != self: # Added 'and body != self'
-		body.take_damage(base_attack_data.damage)
+		body.take_damage(_melee_damage())
 		# To prevent multiple hits from one attack, we might disable the hitbox
 		# or add a list of already-hit enemies. For now, simple.
 		
@@ -275,14 +311,21 @@ func _on_melee_hitbox_body_entered(body):
 
 # Override death: reload the scene instead of queue_free() then reload
 # (calling reload after queue_free is unreliable).
-func _die():
+func _die() -> void:
+	if is_dead:
+		return
+	is_dead = true
 	print("Player has died. Game Over!")
 	if not Engine.is_editor_hint():
-		get_tree().call_deferred("reload_current_scene")
+		# Arena defeats return to the Bastion hub; other scenes reload.
+		if get_tree().current_scene is CombatArena:
+			RunState.return_to_bastion(RunState.Result.DEFEAT)
+		else:
+			get_tree().call_deferred("reload_current_scene")
 
 func _ranged_attack_state(_delta):
 	var projectile = projectile_scene.instantiate()
-	projectile.attack_data = ranged_attack_data
+	projectile.attack_data = _ranged_damage_data()
 	get_tree().get_root().add_child(projectile)
 	projectile.global_transform = projectile_spawn.global_transform
 	ranged_attack_timer = ranged_attack_cooldown
@@ -313,3 +356,7 @@ func _find_closest_enemy_in_front() -> Node3D:
 				min_distance = distance
 				closest_enemy = enemy_3d
 	return closest_enemy
+
+func _is_inventory_open() -> bool:
+	var ui := get_tree().get_first_node_in_group("inventory_ui")
+	return ui != null and ui.has_method("is_open") and ui.is_open()
