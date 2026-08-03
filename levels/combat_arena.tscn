@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://levels/combat_arena.gd" id="1_arena"]
 [ext_resource type="PackedScene" path="res://actors/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://actors/enemies/melee_enemy.tscn" id="3_melee"]
 [ext_resource type="PackedScene" path="res://actors/enemies/ranged_enemy.tscn" id="4_ranged"]
 [ext_resource type="PackedScene" path="res://ui/game_ui.tscn" id="5_ui"]
+[ext_resource type="PackedScene" path="res://actors/enemies/shard_guardian.tscn" id="6_boss"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_arena"]
 geometry_parsed_geometry_type = 1
@@ -45,6 +46,7 @@ size = Vector3(1, 3, 34)
 script = ExtResource("1_arena")
 melee_enemy_scene = ExtResource("3_melee")
 ranged_enemy_scene = ExtResource("4_ranged")
+boss_scene = ExtResource("6_boss")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_arena")
@@ -172,4 +174,4 @@ offset_right = 520.0
 offset_bottom = -12.0
 theme_override_colors/font_color = Color(0.75, 0.78, 0.85, 1)
 theme_override_font_sizes/font_size = 14
-text = "LMB melee · MMB ranged · Shift sprint · Ctrl dodge · R restart"
+text = "LMB melee · MMB ranged · I inventory · Shift sprint · Ctrl dodge · R retry · E return when cleared"
